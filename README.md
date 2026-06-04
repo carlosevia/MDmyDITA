@@ -49,13 +49,12 @@ Put all DITA content inside the `dita` directory:
 
 ```
 ├─ .github/
-│  ├─ workflows/
-│  │  └─ ci.yml              ← CI/CD pipeline (Markdown build)
-│  └─ dita-ot/
-│     └─ myfilter.ditaval    ← sample DITAVal filter (edit or delete)
+│  └─ workflows/
+│     └─ ci.yml              ← CI/CD pipeline (Markdown build)
 └─ dita/
    ├─ document.ditamap       ← main map (required by the default workflow)
    ├─ index.dita             ← first topic / landing content
+   ├─ myfilter.ditaval       ← sample DITAVal filter (edit or delete)
    ├─ *.dita                 ← your topic files
    └─ images/                ← images referenced by topics
 ```
@@ -85,19 +84,17 @@ The resulting Markdown files are zipped and uploaded as a **workflow artifact** 
 
 By default DITA-OT writes one Markdown file per DITA topic. The **`chunk` attribute** lets you merge topics together — this is the DITA "chunk to content" feature.
 
-**Merge the entire map into a single Markdown file**
+**Merge all topics into a single Markdown file**
 
-Add `chunk="combine"` to the root `<map>` element in `document.ditamap`:
+Add `--args.chunk=combine` to the `dita` command in `.github/workflows/ci.yml`:
 
-```xml
-<map chunk="combine">
-  ...
-</map>
+```sh
+dita -i dita/document.ditamap -o out/markdown -f markdown --args.chunk=combine
 ```
 
-**Merge only one branch**
+**Merge only selected branches**
 
-Add `chunk="combine"` to a parent `<topicref>` to fold its children into the parent's file:
+Add the `chunk="combine"` attribute to a parent `<topicref>` in `document.ditamap` to fold its children into the parent's output file:
 
 ```xml
 <topicref href="overview.dita" chunk="combine">
@@ -132,7 +129,7 @@ Add profiling attributes to elements in your topics:
 
 ### Step 2 — Edit the sample DITAVal file
 
-A ready-to-edit template is at `.github/dita-ot/myfilter.ditaval`. Open it and set the `action` for each `<prop>` to `include` or `exclude`:
+A ready-to-edit template is at `dita/myfilter.ditaval`. Open it and set the `action` for each `<prop>` to `include` or `exclude`:
 
 ```xml
 <val>
@@ -150,7 +147,7 @@ build: |
   dita -i dita/document.ditamap \
        -o out/markdown \
        -f markdown \
-       --filter=.github/dita-ot/myfilter.ditaval
+       --filter=dita/myfilter.ditaval
 ```
 
 **Multiple DITAVal files**: repeat `--filter` for each file to stack filters:

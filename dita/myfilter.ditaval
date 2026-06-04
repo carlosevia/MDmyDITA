@@ -12,7 +12,7 @@
        dita -i dita/document.ditamap \
             -o out/markdown \
             -f markdown \
-            --filter=.github/dita-ot/myfilter.ditaval
+            --filter=dita/myfilter.ditaval
 
   ACTIONS
   - include  : always include this content (default if no rule matches)
