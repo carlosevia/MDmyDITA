@@ -1,229 +1,188 @@
-# 📘 DITA-OT Bootstrap HTML and PDF Template
+# DITA-OT Markdown Template
 
-Template repository for publishing **Bootstrap-themed HTML** and **PDF** outputs using [DITA-OT build GitHub Action](https://github.com/dita-ot/dita-ot-action). Use this guide to upload a DITA project to a GitHub repository and, via DITA-OT GitHub Actions, access website and pdf deliverables. Edits to DITA files committed to the repository will invoke the DITA-OT automatically in a process of continuous integration and development to build and serve website and pdf deliverables.
-
----
-
-## 🧭 Table of Contents
-
-- [🧩 Prerequisite](#-prerequisite)
-- [🚀 Getting Started](#-getting-started)
-- [🔑 Grant Workflow Permissions](#-grant-workflow-permissions)
-- [🧱 Project Layout & Requirements](#-project-layout--requirements)
-- [⚙️ Build & Publish (CI Workflow)](#%EF%B8%8F-build--publish-ci-workflow)
-- [🌐 Enable & View GitHub Pages](#-enable--view-github-pages)
-- [🎨 Customize the Outputs](#-customize-the-outputs)
-  - [🖼️ PDF Theme](#%EF%B8%8F-pdf-theme)
-  - [🖥️ Website Theme](#%EF%B8%8F-website-theme)
-- [✏️ Authoring in a Codespace with DitaCraft (Optional)](#%EF%B8%8F-authoring-in-a-codespace-with-ditacraft-optional)
-- [🛟 Troubleshooting](#-troubleshooting)
-- [🙌 Credits](#-credits)
+Template repository for publishing **Markdown** output from DITA content using the [DITA-OT GitHub Action](https://github.com/dita-ot/dita-ot-action). Every push to the repository automatically runs DITA-OT and produces a downloadable Markdown artifact — no local toolchain required.
 
 ---
 
-## 🧩 Prerequisite
+## Table of Contents
 
-You must be logged in to your personal account on GitHub to use this template (refer to [Creating an account on GitHub](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github) for instructions).
+- [Prerequisite](#prerequisite)
+- [Getting Started](#getting-started)
+- [Grant Workflow Permissions](#grant-workflow-permissions)
+- [Project Layout & Requirements](#project-layout--requirements)
+- [Build & Download (CI Workflow)](#build--download-ci-workflow)
+  - [How Chunking Works](#how-chunking-works)
+  - [Downloading the Markdown Artifact](#downloading-the-markdown-artifact)
+- [Filter Content with DITAVal](#filter-content-with-ditaval)
+- [Troubleshooting](#troubleshooting)
+- [Credits](#credits)
 
 ---
 
-## 🚀 Getting Started
+## Prerequisite
+
+You must be logged in to a GitHub account. See [Creating an account on GitHub](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github) if you need one.
+
+---
+
+## Getting Started
 
 1. Click **"Use this template"** at the top of this page.
 2. Create your new repository from the template.
-   - ✅ **Select "Include all branches."** You'll need all branches provided by the template.
+   - Select **"Include all branches"** so you get every branch the template provides.
 
-## 🔑 Grant Workflow Permissions
+---
 
-Give the built-in `GITHUB_TOKEN` permission to publish:
+## Grant Workflow Permissions
+
+The built-in `GITHUB_TOKEN` must have write access for workflows to run correctly:
 
 1. **Settings → Actions → General**
 2. Under **Workflow permissions**, select **Read and write permissions**
 3. (Optional but recommended) Check **Allow GitHub Actions to create and approve pull requests**
 
-> 📝 Without write permissions, the workflow cannot push to the `gh-pages` branch for GitHub Pages.
-
 ---
 
-## 🧱 Project Layout & Requirements
+## Project Layout & Requirements
 
-Put all of your DITA content inside the `dita` directory:
+Put all DITA content inside the `dita` directory:
 
 ```
 ├─ .github/
 │  ├─ workflows/
-│  │  └─ ci.yml
-│  ├─ dita-ot/
-│  │  ├─ header.xml
-│  │  ├─ footer.xml
-│  │  ├─ theme.css
-│  │  ├─ html.xml
-│  │  ├─ html.ditaval
-│  │  ├─ pdf.xml
-│  │  ├─ pdf.ditaval
-│  │  └─ favicon.svg
-│  └─ themes/
-│     ├─ logo.jpg
-│     └─ theme.yaml
+│  │  └─ ci.yml              ← CI/CD pipeline (Markdown build)
+│  └─ dita-ot/
+│     └─ myfilter.ditaval    ← sample DITAVal filter (edit or delete)
 └─ dita/
-   ├─ document.ditamap ← main map (required by the default workflow)
-   ├─ index.dita       ← homepage topic for the site
-   ├─ *.dita           ← your topic files
-   └─ images/…
+   ├─ document.ditamap       ← main map (required by the default workflow)
+   ├─ index.dita             ← first topic / landing content
+   ├─ *.dita                 ← your topic files
+   └─ images/                ← images referenced by topics
 ```
 
 **Requirements**
 
-- 📄 **Main map name**: The default workflow expects **`document.ditamap`**.
-  - Rename your DITA map **`document.ditamap`**.
-  - You *can* give it different name, but then you must update the workflow where it references `document.ditamap` (open `.github/workflows/ci.yml` and search for that filename).
-- 🏠 **Homepage**: `dita/index.dita` will serve as the site's landing page.
-  - Create an index.dita generic or concept topic. Suggest doing this before putting your DITA content inside the dita directory.
-  - Reference your `index.dita` as the first topic reference in your `document.ditamap`. Otherwise, your deliverables will not have a home page or introduction. Suggest doing this before putting your DITA content inside the dita directory. The index.dita topic might include overview or about information.
-- 📁 Keep topics, maps, and media under the `dita/` folder.
+- **Main map name**: The workflow expects `document.ditamap` as the input file.
+  If you rename the map, also update the `-i` flag in `.github/workflows/ci.yml`.
+- **First topic**: Make `index.dita` the first `<topicref>` in `document.ditamap`
+  so the output has a clear entry point.
+- Keep all topics, maps, and media under `dita/`.
 
 ---
 
-## ⚙️ Build & Publish (CI Workflow)
+## Build & Download (CI Workflow)
 
-- Every **push** to the repository triggers the build defined in **`.github/workflows/ci.yml`**.
-- The workflow runs DITA-OT to generate:
-  - 🌐 **[Bootstrap](https://getbootstrap.com/)-themed HTML**
-  - 📄 **PDF**
+Every **push to `master`** triggers the workflow defined in `.github/workflows/ci.yml`.
+It installs the [`org.lwdita`](https://github.com/jelovirt/org.lwdita) plugin and runs:
 
-## 🌐 Enable & View GitHub Pages
+```sh
+dita -i dita/document.ditamap -o out/markdown -f markdown
+```
 
-1. **Settings → Pages**
-2. **Source**: select **Deploy from a branch**
-3. **Branch**: choose **`gh-pages`** and **`/ (root)`**, then **Save**
-4. Your site will be available at:  
-   `https://<your-username>.github.io/<your-repo>/`
+The resulting Markdown files are zipped and uploaded as a **workflow artifact** named `dita-markdown`.
 
-## 📊 Monitor Workflow Runs
+### How Chunking Works
 
-- Go to the **Actions** tab → open the most recent run.
-- ✅ **Green check** = success | ❌ **Red X** = failed
-- Click into a failed job to read logs. Typical causes:
-  - Missing `document.ditamap` or broken references
-  - Invalid DITA markup
-  - Insufficient token permissions to push to `gh-pages`
+By default DITA-OT writes one Markdown file per DITA topic. The **`chunk` attribute** lets you merge topics together — this is the DITA "chunk to content" feature.
 
-> ⏱️ Builds and page deployments can take a few minute to appear after a successful run.
+**Merge the entire map into a single Markdown file**
 
-## 📄 PDF Deliverable
+Add `chunk="combine"` to the root `<map>` element in `document.ditamap`:
 
-The PDF output is not deployed directly to GitHub Pages.  
-Instead, each workflow run on the **Actions** page provides the PDF as a downloadable **artifact**:
+```xml
+<map chunk="combine">
+  ...
+</map>
+```
+
+**Merge only one branch**
+
+Add `chunk="combine"` to a parent `<topicref>` to fold its children into the parent's file:
+
+```xml
+<topicref href="overview.dita" chunk="combine">
+  <topicref href="overview-details.dita"/>
+  <topicref href="overview-notes.dita"/>
+</topicref>
+```
+
+For the full specification, see the [DITA-OT chunking documentation](https://www.dita-ot.org/dev/topics/chunking).
+
+### Downloading the Markdown Artifact
 
 1. Go to the **Actions** tab in your repository.
 2. Select the latest successful workflow run.
-3. Scroll down to the **Artifacts** section.
-4. Click the PDF artifact link to download your deliverable.
+3. Scroll to the **Artifacts** section at the bottom of the run page.
+4. Click **dita-markdown** to download a ZIP containing your Markdown files.
 
 ---
 
-## 🎨 Customize the Outputs
+## Filter Content with DITAVal
 
-### 🖼️ PDF Theme
+A **DITAVal file** tells DITA-OT which content to include or exclude based on profiling attributes (`audience`, `platform`, `product`, etc.) set on DITA elements. This lets you produce different Markdown deliverables from a single source.
 
-- Replace the logo at **`.github/themes/logo.jpg`** with your own.
-- Keep the **filename as `logo.jpg`** unless you also update the workflow.
-- Edit **`.github/themes/theme.yaml`** to adjust **brand colors, fonts, and layout**.
-- 💡 Not comfortable with YAML? Paste the file into an LLM and request guided edits.
+### Step 1 — Profile your DITA content
 
-### 🖥️ Website Theme
+Add profiling attributes to elements in your topics:
 
-- Update the header text in **`.github/dita-ot/header.xml`** (default shown below):
-
-`<span class="align-middle">DITA Open Toolkit experiments</span>`
-
-- Modify `.github/dita-ot/footer.xml` as needed.
-- Adjust `.github/dita-ot/theme.css` to change colors, fonts, and layout.
-- 💡 Not comfortable with CSS? Paste it into an LLM and ask for brand-aligned changes.
-
-For advanced options and components, see the [`dita-bootstrap` plugin documentation](https://infotexture.github.io/dita-bootstrap/).
-
----
-
-## ✏️ Authoring in a Codespace with DitaCraft (Optional)
-
-You can edit your DITA content directly in the browser — no local installation required — using [GitHub Codespaces](https://github.com/features/codespaces) and the [DitaCraft](https://marketplace.visualstudio.com/items?itemName=JeremyJeanne.ditacraft) VS Code extension.
-
-DitaCraft provides syntax highlighting for `.dita`, `.ditamap`, and `.bookmap` files, real-time DTD validation, smart Ctrl+Click navigation between topic references, and 21 DITA-specific code snippets.
-
-> ⚠️ **Note:** DitaCraft uses the DITA-OT for its local HTML5 preview feature. This is separate from the CI workflow, which publishes Bootstrap HTML and PDF using DITA-OT GitHub Actions. The two pipelines are independent.
-
-### 🔧 Setup
-
-This template includes a `.devcontainer` configuration that automatically installs DitaCraft and DITA-OT when you open a Codespace.
-
-1. On the repository page, click the green **Code** button → **Codespaces** tab → **Create codespace on main**
-2. GitHub builds the container (**takes a few minutes the first time**; faster on subsequent launches)
-3. VS Code opens in your browser with DitaCraft active
-
-### ✍️ Authoring Workflow
-
-Once the Codespace is running:
-
-- Open any file under `dita/` — syntax highlighting and real-time validation activate automatically.
-- Use the Command Palette to create a new DITA topic from a template (concept, task, or reference).
-- Click on any `href`, `conref`, or `keyref` value to navigate between files.
-- Manually validate the current file against DITA 1.3 DTDs using the keyboard shortcut below.
-- Trigger a local HTML5 preview (via DITA-OT, rendered in a side panel) using the keyboard shortcut below.
-
-When you're ready to publish, commit and push your changes. The CI workflow triggers automatically and builds the Bootstrap HTML site and PDF artifact.
-
-### ⌨️ Keyboard Shortcuts
-
-| Action | Mac | Windows / Linux |
-|---|---|---|
-| Open Command Palette | `⌘ Cmd` + `⇧ Shift` + `P` | `Ctrl` + `Shift` + `P` |
-| Create New DITA Topic | `⌘ Cmd` + `⇧ Shift` + `P` → **DITA: Create New Topic** | `Ctrl` + `Shift` + `P` → **DITA: Create New Topic** |
-| Navigate to linked file (`href`, `conref`, `keyref`) | `⌘ Cmd` + `Click` | `Ctrl` + `Click` |
-| Validate current file (DITA 1.3 DTD) | `⌘ Cmd` + `⇧ Shift` + `V` | `Ctrl` + `Shift` + `V` |
-| Local HTML5 preview | `⌘ Cmd` + `⇧ Shift` + `H` | `Ctrl` + `Shift` + `H` |
-| Save file | `⌘ Cmd` + `S` | `Ctrl` + `S` |
-| Find in file | `⌘ Cmd` + `F` | `Ctrl` + `F` |
-| Find across all files | `⌘ Cmd` + `⇧ Shift` + `F` | `Ctrl` + `Shift` + `F` |
-| Toggle sidebar | `⌘ Cmd` + `B` | `Ctrl` + `B` |
-| Split editor | `⌘ Cmd` + `\` | `Ctrl` + `\` |
-
-> 💡 **Tip for Mac users:** In GitHub Codespaces running in the browser, some `⌘ Cmd` shortcuts may be intercepted by your operating system or browser. If a shortcut doesn't work, try accessing the same command via the Command Palette (`⌘ Cmd` + `⇧ Shift` + `P`).
-
-### ⚙️ Configuration
-
-DitaCraft reads settings from `.vscode/settings.json` in your workspace. This file is not included in the template, so you can create it manually if you want to customize DitaCraft's behavior. A typical configuration looks like this:
-
-```json
-{
-  "ditacraft.ditaOtPath": "/opt/dita-ot",
-  "ditacraft.defaultTranstype": "html5",
-  "ditacraft.outputDirectory": "${workspaceFolder}/out",
-  "ditacraft.autoValidate": true,
-  "ditacraft.previewAutoRefresh": true
-}
+```xml
+<p audience="expert">Advanced configuration options for power users.</p>
+<p audience="novice">Quick-start instructions for new users.</p>
 ```
 
-Local preview output goes to `out/`, which is excluded from version control via `.gitignore`.
+### Step 2 — Edit the sample DITAVal file
+
+A ready-to-edit template is at `.github/dita-ot/myfilter.ditaval`. Open it and set the `action` for each `<prop>` to `include` or `exclude`:
+
+```xml
+<val>
+  <prop att="audience" val="expert"  action="exclude"/>
+  <prop att="audience" val="novice"  action="include"/>
+</val>
+```
+
+### Step 3 — Add the `--filter` flag in `ci.yml`
+
+Open `.github/workflows/ci.yml` and add `--filter` to the `dita` command (look for the build step):
+
+```yaml
+build: |
+  dita -i dita/document.ditamap \
+       -o out/markdown \
+       -f markdown \
+       --filter=.github/dita-ot/myfilter.ditaval
+```
+
+**Multiple DITAVal files**: repeat `--filter` for each file to stack filters:
+
+```yaml
+build: |
+  dita -i dita/document.ditamap \
+       -o out/markdown \
+       -f markdown \
+       --filter=.github/dita-ot/audience-expert.ditaval \
+       --filter=.github/dita-ot/platform-linux.ditaval
+```
+
+> **Tip:** You can create multiple workflow jobs, each using a different DITAVal, to produce audience-specific Markdown artifacts in a single CI run.
 
 ---
 
-## 🛟 Troubleshooting
+## Troubleshooting
 
-- No site/404 on Pages
-  - Confirm Settings → Pages is set to `gh-pages / root`.
-  - Check that the CI run completed successfully and pushed to gh-pages.
-- Workflow cannot push
-  - Verify Read and write permissions for GITHUB_TOKEN (see above).
-- Build fails with missing files
-  - Ensure `dita/document.ditamap` exists and references are correct.
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| Workflow fails immediately | Missing `document.ditamap` | Confirm the file exists at `dita/document.ditamap` |
+| Build errors in log | Invalid DITA markup or broken `href` references | Open the failed job log and fix the reported file/line |
+| Artifact missing after green run | Upload step skipped | Check that `out/markdown` was produced; re-run the workflow |
+| DITAVal has no effect | Filter attribute not on any element | Verify your topics use the same attribute name and value as the `<prop>` in the DITAVal |
 
 ---
 
-## 🙌 Credits
+## Credits
 
 Thanks to the following DITA-OT experts and maintainers:
 
 - Jason Fox
 - Roger Sheen
-- Your uncle Claude by Anthropic.
+- Jarno Elovirta (org.lwdita plugin)
