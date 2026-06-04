@@ -25,8 +25,10 @@ jobs:
       # default.
       #
       # CHUNK TO CONTENT
-      # --args.chunk=combine merges all topics into a single Markdown file.
-      # Remove that flag if you want one .md file per DITA topic instead.
+      # Chunking is controlled via the chunk="combine" attribute on the <map>
+      # element in dita/document.ditamap, not in the dita command.
+      # That attribute is already set in the sample map and merges all topics
+      # into a single Markdown file. Remove it to get one .md file per topic.
       #
       # DITAVAL FILTERING
       # To include/exclude content using a DITAVal filter file:
@@ -51,7 +53,7 @@ jobs:
         uses: dita-ot/dita-ot-action@4.4
         with:
           build: |
-            dita -i dita/document.ditamap -o out/markdown -f markdown --args.chunk=combine
+            dita -i dita/document.ditamap -o out/markdown -f markdown
 
       # ── 3. Upload the Markdown files as a downloadable workflow artifact ───
       #
