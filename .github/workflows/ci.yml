@@ -25,12 +25,8 @@ jobs:
       # default.
       #
       # CHUNK TO CONTENT
-      # To merge all topics into a single Markdown file, add --args.chunk=combine
-      # to the dita command (uncomment the line below and remove the plain one):
-      #
-      #   build: |
-      #     dita -i dita/document.ditamap -o out/markdown -f markdown \
-      #          --args.chunk=combine
+      # --args.chunk=combine merges all topics into a single Markdown file.
+      # Remove that flag if you want one .md file per DITA topic instead.
       #
       # DITAVAL FILTERING
       # To include/exclude content using a DITAVal filter file:
@@ -55,7 +51,7 @@ jobs:
         uses: dita-ot/dita-ot-action@4.4
         with:
           build: |
-            dita -i dita/document.ditamap -o out/markdown -f markdown
+            dita -i dita/document.ditamap -o out/markdown -f markdown --args.chunk=combine
 
       # ── 3. Upload the Markdown files as a downloadable workflow artifact ───
       #
