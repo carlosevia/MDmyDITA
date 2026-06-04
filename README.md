@@ -86,10 +86,10 @@ By default DITA-OT writes one Markdown file per DITA topic. The **`chunk` attrib
 
 **Merge all topics into a single Markdown file**
 
-Add `chunk="combine"` to the root `<map>` element in `dita/document.ditamap`:
+Add `chunk="to-content"` to the root `<map>` element in `dita/document.ditamap`:
 
 ```xml
-<map chunk="combine">
+<map chunk="to-content">
   ...
 </map>
 ```
@@ -98,10 +98,10 @@ This is already set in the sample map. Remove it to get one `.md` file per topic
 
 **Merge only selected branches**
 
-Add `chunk="combine"` to a parent `<topicref>` to fold only that branch into one file:
+Add `chunk="to-content"` to a parent `<topicref>` to fold only that branch into one file:
 
 ```xml
-<topicref href="overview.dita" chunk="combine">
+<topicref href="overview.dita" chunk="to-content">
   <topicref href="overview-details.dita"/>
   <topicref href="overview-notes.dita"/>
 </topicref>

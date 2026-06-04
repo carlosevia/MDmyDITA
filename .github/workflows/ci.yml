@@ -25,8 +25,8 @@ jobs:
       # default.
       #
       # CHUNK TO CONTENT
-      # Chunking is controlled via the chunk="combine" attribute on the <map>
-      # element in dita/document.ditamap, not in the dita command.
+      # Chunking is controlled via the chunk="to-content" attribute on the
+      # <map> element in dita/document.ditamap, not in the dita command.
       # That attribute is already set in the sample map and merges all topics
       # into a single Markdown file. Remove it to get one .md file per topic.
       #
