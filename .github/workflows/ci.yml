@@ -20,43 +20,36 @@ jobs:
 
       # ── 2. Build Markdown output ───────────────────────────────────────────
       #
-      # The `org.lwdita` plugin converts DITA content to Markdown.
+      # The `org.lwdita` plugin (bundled with DITA-OT 4.4) converts DITA
+      # content to Markdown. One .md file is produced per DITA topic by
+      # default.
       #
-      # CHUNKING (chunk="to-content")
-      # By default DITA-OT produces one Markdown file per DITA topic.
-      # To merge nested child topics into their parent topic file, add the
-      # DITA `chunk` attribute directly in your map:
+      # CHUNK TO CONTENT
+      # To merge all topics into a single Markdown file, add --args.chunk=combine
+      # to the dita command (uncomment the line below and remove the plain one):
       #
-      #   <map chunk="combine">   ← merges the entire map into ONE .md file
-      #
-      # or on individual topicrefs to merge only that branch:
-      #
-      #   <topicref href="parent.dita" chunk="combine">
-      #     <topicref href="child.dita"/>
-      #   </topicref>
-      #
-      # See https://www.dita-ot.org/dev/topics/chunking for full details.
+      #   build: |
+      #     dita -i dita/document.ditamap -o out/markdown -f markdown \
+      #          --args.chunk=combine
       #
       # DITAVAL FILTERING
       # To include/exclude content using a DITAVal filter file:
-      #   1. Place your .ditaval file anywhere in the repo
-      #      (suggested: .github/dita-ot/myfilter.ditaval).
-      #      A sample template is already at that path — edit it to suit
-      #      your profiling attributes.
-      #   2. Add the --filter flag to the dita command below, e.g.:
+      #   1. Edit the sample file at dita/myfilter.ditaval to match the
+      #      profiling attributes used in your DITA topics.
+      #   2. Add --filter to the dita command below, e.g.:
       #
       #        dita -i dita/document.ditamap \
       #             -o out/markdown \
       #             -f markdown \
-      #             --filter=.github/dita-ot/myfilter.ditaval
+      #             --filter=dita/myfilter.ditaval
       #
       #   3. To apply multiple DITAVal files at once, repeat --filter:
       #
       #        dita -i dita/document.ditamap \
       #             -o out/markdown \
       #             -f markdown \
-      #             --filter=.github/dita-ot/audience-expert.ditaval \
-      #             --filter=.github/dita-ot/platform-linux.ditaval
+      #             --filter=dita/audience-expert.ditaval \
+      #             --filter=dita/platform-linux.ditaval
       #
       - name: Build Markdown
         uses: dita-ot/dita-ot-action@4.4
