@@ -19,7 +19,7 @@
  <topicref href="ref-remote-control-components.dita"/>
  <topicref href="intro-network-lighting.dita">
   <topicref href="intro-max-number-bulbs.dita"/>
-  <topicref href="intro-low-power-networking.md"/>
+  <topicref href="intro-low-power-networking.md" format="mdita/>
  </topicref>
  <topicref href="intro-considerations-planning-light-network.dita"/>
  <topicref href="how-to-program-bulbs-to-groups.dita"/>
