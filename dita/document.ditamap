@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd">
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
 <map chunk="to-content">
  <title>Remote Lighting Network</title>
  <topicmeta>
@@ -18,10 +18,11 @@
  <topicref href="index.dita"/>
  <topicref href="ref-remote-control-components.dita"/>
  <topicref href="intro-network-lighting.dita">
-  <topicref href="intro-max-number-bulbs.dita"/>
+  <topicref href="intro-max-number-bulbs.md" format="mdita"/>
   <topicref href="intro-low-power-networking.dita"/>
  </topicref>
  <topicref href="intro-considerations-planning-light-network.dita"/>
+ <topicref href="process-install-and-setup.md" format="mdita"/>
  <topicref href="how-to-program-bulbs-to-groups.dita"/>
  <topicref href="how-to-turn-on-off-dim-lights.dita"/>
  <topicref href="ref-specifications-overview.dita">

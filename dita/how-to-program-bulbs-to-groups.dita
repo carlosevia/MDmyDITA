@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA 2.0 Task//EN" "task.dtd">
 <task id="how-to-program-bulbs-to-groups" xml:lang="en-us">
     <title>Programming Light Bulbs to Lighting Groups</title>
     <shortdesc>You can program one or more light bulbs to a lighting group to operate that group
