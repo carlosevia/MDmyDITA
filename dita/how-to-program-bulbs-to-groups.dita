@@ -34,7 +34,7 @@
                 <cmd>Make sure your remote control is in range of the light bulbs you are
                     adding.</cmd>
             </step>
-            <step id="step-if-bulb-new">
+            <step id="step-if-bulb-new" keys="step-if-bulb-new">
                 <cmd>If a network light bulb is new, you must install it by performing the following
                     steps:</cmd>
                 <steps id="substeps-nt1-k44-kr">
@@ -55,8 +55,7 @@
                             remote control’s network.</stepresult>
                     </step>
                     <step>
-                        <cmd>Repeat Step <xref
-                                href="step-if-bulb-new"/> for each new network light bulb.</cmd>
+                        <cmd>Repeat Step <xref keyref="step-if-bulb-new"/> for each new network light bulb.</cmd>
                     </step>
                 </steps>
             </step>
@@ -64,7 +63,7 @@
                 <cmd>Turn power on to the fixtures containing network light bulbs you want added to
                     the light group.</cmd>
             </step>
-            <step id="step-turn-power-off">
+            <step id="step-turn-power-off" keys="step-turn-power-off">
                 <cmd>Turn power off to the fixtures containing light bulbs you do not want added to
                     the light group. </cmd>
             </step>
@@ -79,8 +78,7 @@
             <step>
                 <cmd>Leave the light fixture switches ON so that power is available when using your
                     remote control to turn the light bulbs on and off. Also remember to turn on any
-                    excluded fixtures that you turned off in Step <xref
-                        href="step-turn-power-off"/>.</cmd>
+                    excluded fixtures that you turned off in Step <xref keyref="step-turn-power-off"/>.</cmd>
             </step>
           
         </steps>
