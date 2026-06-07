@@ -63,8 +63,6 @@ Put all DITA content inside the `dita` directory:
 
 - **Main map name**: The workflow expects `document.ditamap` as the input file.
   If you rename the map, also update the `-i` flag in `.github/workflows/ci.yml`.
-- **First topic**: Make `index.dita` the first `<topicref>` in `document.ditamap`
-  so the output has a clear entry point.
 - Keep all topics, maps, and media under `dita/`.
 
 ---
@@ -81,32 +79,20 @@ The resulting Markdown files are zipped and uploaded as a **workflow artifact** 
 
 ### How Chunking Works
 
-By default DITA-OT writes one Markdown file per DITA topic. The **`chunk` attribute** lets you merge topics together — this is the DITA "chunk to content" feature.
+By default DITA-OT writes one Markdown file per DITA topic. The **`chunk` attribute** lets you merge topics together — this is the DITA 2.0 "chunk combine" feature.
 
 **Merge all topics into a single Markdown file**
 
-Add `chunk="to-content"` to the root `<map>` element in `dita/document.ditamap`:
+Add `chunk="combine"` to the root `<map>` element in `dita/document.ditamap`:
 
 ```xml
-<map chunk="to-content">
+<map chunk="combine">
   ...
 </map>
 ```
 
 This is already set in the sample map. Remove it to get one `.md` file per topic.
 
-**Merge only selected branches**
-
-Add `chunk="to-content"` to a parent `<topicref>` to fold only that branch into one file:
-
-```xml
-<topicref href="overview.dita" chunk="to-content">
-  <topicref href="overview-details.dita"/>
-  <topicref href="overview-notes.dita"/>
-</topicref>
-```
-
-For the full specification, see the [DITA-OT chunking documentation](https://www.dita-ot.org/dev/topics/chunking).
 
 ### Downloading the Markdown Artifact
 
