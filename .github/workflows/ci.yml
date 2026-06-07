@@ -53,7 +53,7 @@ jobs:
         uses: dita-ot/dita-ot-action@4.4
         with:
           build: |
-            dita -i dita/document.ditamap -o out/markdown -f markdown
+            dita -i dita/document.ditamap -o out/markdown -f markdown_gitbook 
 
       # ── 3. Upload the Markdown files as a downloadable workflow artifact ───
       #
