@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA 2.0 Concept//EN" "concept.dtd">
 <concept id="intro-low-power-networking" xml:lang="en-us">
  <title>Low-Power Networking</title>
  <shortdesc>Network lighting operates at a low level of networking power but can successfully
@@ -8,7 +8,7 @@
  <prolog>
   <author>Kevin Lewis</author>
   <copyright>
-   <copyryear year="2024"/>
+   <copyryear year="2026"/>
    <copyrholder>Remote Lighting Enterprises</copyrholder>
   </copyright>
  </prolog>

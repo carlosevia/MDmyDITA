@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA 2.0 Task//EN" "task.dtd">
 <task id="how-to-program-bulbs-to-groups" xml:lang="en-us">
     <title>Programming Light Bulbs to Lighting Groups</title>
     <shortdesc>You can program one or more light bulbs to a lighting group to operate that group
@@ -7,7 +7,7 @@
     <prolog>
         <author>Kevin Lewis</author>
         <copyright>
-            <copyryear year="2025"/>
+            <copyryear year="2026"/>
             <copyrholder>Remote Lighting Enterprises</copyrholder>
         </copyright>
         <metadata>
@@ -37,29 +37,29 @@
             <step id="step-if-bulb-new">
                 <cmd>If a network light bulb is new, you must install it by performing the following
                     steps:</cmd>
-                <substeps id="substeps-nt1-k44-kr">
-                    <substep>
+                <steps id="substeps-nt1-k44-kr">
+                    <step>
                         <cmd>Make sure power to the fixture where you are installing the light bulb
                             is turned OFF.</cmd>
-                    </substep>
-                    <substep>
+                    </step>
+                    <step>
                         <cmd>Remove any existing light bulb from the light fixture.</cmd>
-                    </substep>
-                    <substep>
+                    </step>
+                    <step>
                         <cmd>Install the network light bulb into the light fixture as you would any
                             standard light bulb.</cmd>
-                    </substep>
-                    <substep>
+                    </step>
+                    <step>
                         <cmd>Turn power to the light fixture on.</cmd>
                         <stepresult>The light bulb begins to brighten and dim while finding the
                             remote control’s network.</stepresult>
-                    </substep>
-                    <substep>
+                    </step>
+                    <step>
                         <cmd>Repeat Step <xref
                                 href="#how-to-program-bulbs-to-groups/step-if-bulb-new"
                                 format="dita"/> for each new network light bulb.</cmd>
-                    </substep>
-                </substeps>
+                    </step>
+                </steps>
             </step>
             <step>
                 <cmd>Turn power on to the fixtures containing network light bulbs you want added to

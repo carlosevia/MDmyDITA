@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA 2.0 Concept//EN" "concept.dtd">
 <concept id="intro-max-number-bulbs" xml:lang="en-us">
  <title>Maximum Number of Network Light Bulbs</title>
  <shortdesc>Testing shows you should network no more than 250 light bulbs to maintain reliable
