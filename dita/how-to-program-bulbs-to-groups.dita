@@ -56,8 +56,7 @@
                     </step>
                     <step>
                         <cmd>Repeat Step <xref
-                                href="#how-to-program-bulbs-to-groups/step-if-bulb-new"
-                                format="dita"/> for each new network light bulb.</cmd>
+                                href="#how-to-program-bulbs-to-groups/step-if-bulb-new"/> for each new network light bulb.</cmd>
                     </step>
                 </steps>
             </step>
@@ -81,8 +80,7 @@
                 <cmd>Leave the light fixture switches ON so that power is available when using your
                     remote control to turn the light bulbs on and off. Also remember to turn on any
                     excluded fixtures that you turned off in Step <xref
-                        href="#how-to-program-bulbs-to-groups/step-turn-power-off" format="dita"
-                    />.</cmd>
+                        href="#how-to-program-bulbs-to-groups/step-turn-power-off"/>.</cmd>
             </step>
           
         </steps>
