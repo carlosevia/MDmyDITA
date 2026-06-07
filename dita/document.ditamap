@@ -15,7 +15,7 @@
   </topicmeta>
  </keydef>
  
- <topicref href="index.dita"/>
+ <topicref href="intro-product.dita"/>
  <topicref href="ref-remote-control-components.dita"/>
  <topicref href="intro-network-lighting.dita">
   <topicref href="intro-max-number-bulbs.dita"/>
